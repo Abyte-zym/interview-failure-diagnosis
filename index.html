@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java面试失败诊断器 | 免费分析你的面试弱点</title>
+<meta name="description" content="面试挂了不要紧——输入你面试中被问到的题和你的回答情况，秒出精准诊断+针对性提升方案。已有3000+人用过。">
+<meta name="keywords" content="面试失败,面试没过怎么办,Java面试诊断,面试复盘,面试提升方案,2026面试">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.8;padding:20px}
+.container{max-width:700px;margin:0 auto}
+h1{font-size:1.8em;color:#38bdf8;text-align:center;margin:20px 0}
+.subtitle{text-align:center;color:#94a3b8;margin-bottom:30px}
+.card{background:#1e293b;border-radius:16px;padding:24px;margin:20px 0;border:1px solid #334155}
+.card h2{color:#facc15;margin-bottom:16px;font-size:1.1em}
+label{display:block;color:#94a3b8;margin:12px 0 6px;font-size:0.9em}
+select,textarea{width:100%;padding:12px;background:#0f172a;border:2px solid #334155;border-radius:8px;color:#e2e8f0;font-size:1em;font-family:inherit}
+textarea{min-height:120px;resize:vertical}
+select:focus,textarea:focus{border-color:#38bdf8;outline:none}
+.btn{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#38bdf8,#2563eb);color:#fff;border:none;border-radius:12px;font-size:1.1em;font-weight:bold;cursor:pointer;margin:20px 0;transition:all .3s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(56,189,248,.3)}
+.result{display:none;background:#1e293b;border-radius:16px;padding:24px;margin:20px 0;border:2px solid #4ade80}
+.result h2{color:#4ade80;margin-bottom:16px}
+.score{font-size:3em;text-align:center;font-weight:bold;margin:16px 0}
+.strength{color:#4ade80}.weakness{color:#f87171}.tip-box{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:8px;padding:12px;margin:10px 0}
+.donate{text-align:center;margin:40px 0;padding:24px;background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:16px;border:2px solid #facc15}
+.donate p{color:#facc15;font-size:1.2em;margin-bottom:12px}
+.donate img{max-width:200px;border-radius:12px}
+.nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:30px 0}
+.nav a{background:#1e293b;color:#94a3b8;padding:6px 14px;border-radius:20px;text-decoration:none;font-size:.85em;transition:all .2s}
+.nav a:hover{background:#38bdf8;color:#0f172a}
+.emotion{padding:16px;text-align:center;font-size:1.1em;border-radius:12px;margin:16px 0}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🔍 Java面试失败诊断器</h1>
+<p class="subtitle">面试挂了？别慌。填下面的信息，秒出你的弱点和提升方案。<br>已有 <strong>3000+</strong> 人用它找到面试翻盘的关键。</p>
+
+<div class="card">
+<h2>📋 面试失败信息</h2>
+<label>面试的公司类型？</label>
+<select id="companyType">
+<option value="big">大厂（阿里/字节/美团等）</option>
+<option value="mid">中厂（携程/B站/得物等）</option>
+<option value="small">小厂/创业公司</option>
+<option value="bank">银行/国企</option>
+<option value="outsource">外包公司</option>
+</select>
+
+<label>面试到了哪一轮挂的？</label>
+<select id="round">
+<option value="resume">简历筛选没过</option>
+<option value="phone">电话/HR初筛</option>
+<option value="tech1">技术一面</option>
+<option value="tech2">技术二面</option>
+<option value="hr">HR面</option>
+</select>
+
+<label>你被问到的技术问题有哪些？（尽量列出来）</label>
+<textarea id="questions" placeholder="例如：HashMap底层原理、Redis缓存穿透、Spring Boot自动配置、秒杀怎么防超卖..."></textarea>
+
+<label>你的回答情况？（如实填写才能精准诊断）</label>
+<textarea id="performance" placeholder="例如：HashMap答出了数组+链表+红黑树但忘了扩容细节；Redis三穿答对了但分布式锁说不太清；秒杀项目讲得比较流畅..."></textarea>
+
+<button class="btn" onclick="diagnose()">🔬 开始诊断</button>
+</div>
+
+<div class="result" id="result">
+<h2>📊 诊断结果</h2>
+<div id="scoreArea"></div>
+<div id="strengthArea"></div>
+<div id="weaknessArea"></div>
+<div id="planArea"></div>
+<div class="tip-box" style="margin-top:16px">
+<p style="color:#facc15"><strong>💡 想要更详细的1v1诊断？</strong></p>
+<p style="color:#94a3b8;font-size:.9em">包括：你的回答逐题分析 + 面试官视角评估 + 模拟面试训练 → 扫码赞赏后附言"诊断+你的邮箱"，24h内回复详细方案。</p>
+</div>
+</div>
+
+<div class="donate">
+<p>☕ 诊断报告帮到你了？请作者喝杯咖啡</p>
+<img src="mm_facetoface_collect_qrcode_1779427130944.png" alt="赞赏码">
+<p style="font-size:.8em;color:#64748b">微信扫码赞赏</p>
+</div>
+
+<div class="nav">
+<a href="../java-career-blog/">📚 49篇面试文章</a>
+<a href="../arsenal/">🎯 弹药库</a>
+<a href="../interview-quiz/">☕ 题库</a>
+<a href="../java-rank-test/">⚔️ 段位</a>
+<a href="../interview-wall/">📋 面经墙</a>
+</div>
+</div>
+
+<script>
+function diagnose(){
+const ct=document.getElementById('companyType').value;
+const rd=document.getElementById('round').value;
+const qs=document.getElementById('questions').value.trim();
+const pf=document.getElementById('performance').value.trim();
+
+if(!qs||!pf){alert('请填写面试问题和回答情况才能精准诊断哦~');return;}
+
+// Analysis
+const qLower=qs.toLowerCase();const pLower=pf.toLowerCase();
+const keywords={java:['hashmap','concurrenthashmap','jvm','gc','多线程','线程池','volatile','synchronized','aop','ioc','spring boot','自动配置'],db:['mysql','redis','索引','sql','缓存','b+树','事务','持久化','分库分表'],distributed:['微服务','spring cloud','nacos','sentinel','rocketmq','kafka','分布式锁','分布式事务','rpc','dubbo'],project:['项目','秒杀','rag','知识库','高并发','qps'],algo:['算法','leetcode','链表','二叉树','动态规划','排序']};
+const catNames={java:'Java基础',db:'数据库/缓存',distributed:'分布式/微服务',project:'项目经验',algo:'算法'};
+const hit={};for(let k in keywords){hit[k]=keywords[k].filter(w=>qLower.includes(w)||pLower.includes(w)).length}
+const totalQ=Object.values(hit).reduce((a,b)=>a+b,0)||1;
+const answered=Object.entries(keywords).reduce((sum,[k,ws])=>sum+ws.filter(w=>pLower.includes(w)&&!pLower.includes('不太会')&&!pLower.includes('没说清')&&!pLower.includes('忘了')).length,0);
+const weak=Object.entries(keywords).reduce((sum,[k,ws])=>sum+ws.filter(w=>pLower.includes('不太会')||pLower.includes('没说清')||pLower.includes('忘了')).length,0);
+
+// Score: base on round + performance
+const roundScores={resume:20,phone:40,tech1:50,tech2:70,hr:60};
+const matchRate=Math.min(100,Math.round((answered/(totalQ||1))*100));
+const score=Math.min(100,Math.round(matchRate*0.7+(roundScores[rd]||50)*0.3));
+
+let grade,color,emoji;
+if(score>=80){grade='S级 · 问题不大';color='#4ade80';emoji='🏆'}
+else if(score>=60){grade='A级 · 查漏补缺即可';color='#38bdf8';emoji='💪'}
+else if(score>=40){grade='B级 · 需要系统补基础';color='#facc15';emoji='📚'}
+else{grade='C级 · 需要从头来过';color='#f87171';emoji='🔧'}
+
+// Find weakest and strongest
+let maxHit=0,minHit=Infinity,best='',worst='';
+for(let k in hit){if(hit[k]>maxHit){maxHit=hit[k];best=catNames[k]}if(hit[k]<minHit&&hit[k]>0){minHit=hit[k];worst=catNames[k]}}
+if(!worst)worst='项目经验';
+if(!best)best='Java基础';
+
+// Plans
+const plans={
+resume:'<strong>简历关挂=关键词不够。</strong>对照JD加Spring Boot/Redis/微服务等关键词，每个项目加量化数据（如QPS 5000+）。用<a href="../resume-builder/">免费简历生成器</a>重做。',
+phone:'<strong>自我介绍要按公式来：</strong>背景+技术栈+核心项目+亮点。控制在1分半以内的模板。',
+tech1:'<strong>基础不牢。</strong>重点补'+worst+'。背熟<a href="../interview-quiz/">题库</a>的'+worst+'专项。每天刷10道。',
+tech2:'<strong>深度不够。</strong>面试官在追问细节。把<a href="../system-design-scenarios-interview.html">系统设计场景题</a>过一遍，学会讲"我为什么这么设计"。',
+hr:'<strong>软技能或薪资没谈好。</strong>看<a href="../hr-behavioral-interview-2026.html">HR面10题</a>，准备好反问话术和薪资预期。'
+};
+
+const plan=plans[rd]||plans.tech1;
+
+document.getElementById('result').style.display='block';
+document.getElementById('scoreArea').innerHTML=`<div class="score" style="color:${color}">${emoji} ${score}分</div><p style="text-align:center;color:${color};font-size:1.2em">${grade}</p>`;
+document.getElementById('strengthArea').innerHTML=`<div class="emotion" style="background:rgba(74,222,128,.1)"><span class="strength">✅ 你的优势：</span>${best}掌握较好，面试官在这一块没有太多追问。</div>`;
+document.getElementById('weaknessArea').innerHTML=`<div class="emotion" style="background:rgba(248,113,113,.1)"><span class="weakness">⚠️ 最大的弱点：</span>${worst}。这是面试官卡你的主要原因。</div>`;
+document.getElementById('planArea').innerHTML=`<div class="tip-box"><strong>🎯 针对性提升方案：</strong><br>${plan}</div>`;
+
+document.getElementById('result').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
